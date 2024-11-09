@@ -1,0 +1,49 @@
+name: Generate static site
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 10 * * *'
+
+concurrency:
+  group: generate-static-site
+  cancel-in-progress: true
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          path: main
+      - name: Checkout michael-maltsev/technion-ug-info-fetcher
+        uses: actions/checkout@v4
+        with:
+          repository: michael-maltsev/technion-ug-info-fetcher
+          ref: gh-pages
+          path: technion-ug-info-fetcher
+      - name: Checkout michael-maltsev/technion-sap-info-fetcher
+        uses: actions/checkout@v4
+        with:
+          repository: michael-maltsev/technion-sap-info-fetcher
+          ref: gh-pages
+          path: technion-sap-info-fetcher
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Generate static site
+        run: |
+          cd main
+          python -u run.py
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./main/names
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
