@@ -1,5 +1,19 @@
 import json
+import re
 from pathlib import Path
+
+
+def to_new_course_number(course):
+    match = re.match(r'^9730(\d\d)$', course)
+    if match:
+        return '970300' + match.group(1)
+
+    match = re.match(r'^(\d\d\d)(\d\d\d)$', course)
+    if match:
+        return '0' + match.group(1) + '0' + match.group(2)
+
+    return course
+
 
 names_path = Path(".") / "base_names.json"
 
@@ -18,6 +32,11 @@ for dir in ["technion-ug-info-fetcher", "technion-sap-info-fetcher"]:
             number = general["מספר מקצוע"]
             name = general["שם מקצוע"]
             names[number] = name
+
+for number in list(names.keys()):
+    new_number = to_new_course_number(number)
+    if new_number != number and new_number not in names:
+        names[new_number] = names[number]
 
 output_path = Path(".") / "names"
 output_path.mkdir(exist_ok=True, parents=True)
