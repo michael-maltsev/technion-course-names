@@ -42,7 +42,7 @@ output_path = Path(".") / "names"
 output_path.mkdir(exist_ok=True, parents=True)
 
 with open(output_path / "names.json", "w") as f:
-    json.dump(names, f, ensure_ascii=False)
+    json.dump(names, f, ensure_ascii=False, sort_keys=True)
 
 output_path_num = output_path / "num"
 output_path_num.mkdir(exist_ok=True, parents=True)
