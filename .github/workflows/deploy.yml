@@ -17,17 +17,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           path: main
       - name: Checkout michael-maltsev/technion-ug-info-fetcher
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: michael-maltsev/technion-ug-info-fetcher
           ref: gh-pages
           path: technion-ug-info-fetcher
       - name: Checkout michael-maltsev/technion-sap-info-fetcher
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: michael-maltsev/technion-sap-info-fetcher
           ref: gh-pages
