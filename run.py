@@ -32,7 +32,7 @@ for dir in ["technion-ug-info-fetcher", "technion-sap-info-fetcher"]:
         for course in data:
             general = course["general"]
             number = general["מספר מקצוע"]
-            name = general["שם מקצוע"]
+            name = re.sub(r"\s+", " ", general["שם מקצוע"].strip())
             names[number] = name
 
             if dir == "technion-sap-info-fetcher":
